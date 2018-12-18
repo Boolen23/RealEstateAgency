@@ -1,0 +1,154 @@
+﻿<Window x:Class="RealEstateAgency.View.SupplyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local ="clr-namespace:RealEstateAgency"
+        xmlns:conv ="clr-namespace:RealEstateAgency.Converter"
+        mc:Ignorable="d" WindowState="Maximized"
+        Title="SupplyWindow" Height="584.689" Width="1036.178">
+    <Window.Resources>
+        <local:BindingProxy x:Key="ImgProxy" Data="{Binding ElementName=MiniImgs, Path=IsChecked}" />
+        <local:BindingProxy x:Key="DelProxy" Data="{Binding ElementName=ButtonDelete, Path=IsChecked}" />
+
+        <conv:BoolToVisible x:Key="BoolToVisible"/>
+        <conv:RowViewToImageConverter x:Key="ItemsConverter"/>
+        <conv:TransactionToBoolConverter x:Key="TransactionConverter"/>
+        <conv:PurchaseToBoolConverter x:Key="PurchaseConverter"/>
+        <conv:DataTableToCount x:Key="DataTableCount"/>
+        <conv:PurchaseToVisible x:Key="PurchaseToVisible"/>
+        <conv:SliderValueToSearchSet x:Key="SliderValueToSearchSet"/>
+        <Style x:Key="CellCenter" TargetType="DataGridCell">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="HeaderCenter" TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="AliceBlue" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="TransparentRowHeaderStyle" TargetType="DataGridRowHeader">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="AUTO"></RowDefinition>
+                <RowDefinition ></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition ></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <DataGrid  CanUserAddRows="False" IsReadOnly="True" GridLinesVisibility="Horizontal" Background="Transparent" Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding TransactionData, UpdateSourceTrigger=LostFocus}" ColumnWidth="*" RowHeight="60" Name="grid" AutoGeneratingColumn="grid_AutoGeneratingColumn" Margin="0,0,0,32" >
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Visibility="{Binding Data, Converter={StaticResource BoolToVisible}, Source={StaticResource ImgProxy}}" Header="Image">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Width="140" Height="80" MouseDown="Image_MouseDown_1"  Source="{Binding Image}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Text="{Binding DataLenght}" FontSize="22"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding DataTable, Converter={StaticResource DataTableCount}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="200" Height="30"></TextBlock>
+            <TextBlock Visibility="{Binding Info, Converter={StaticResource BoolToVisible}}" Grid.Row="1" Grid.ColumnSpan="2" FontFamily="Arial Bold" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="1">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="TextBlock.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <StringAnimationUsingKeyFrames Storyboard.TargetProperty="Text"  Duration="0:0:1.5" RepeatBehavior="Forever">
+                                    <DiscreteStringKeyFrame Value="Загрузка данных." KeyTime="0%" />
+                                    <DiscreteStringKeyFrame Value="Загрузка данных.." KeyTime="30%" />
+                                    <DiscreteStringKeyFrame Value="Загрузка данных..." KeyTime="60%" />
+                                </StringAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TextBlock.Triggers></TextBlock>
+            
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                <Grid.Background>
+                    <ImageBrush Stretch="None"  ImageSource="pack://application:,,,/RealEstateAgency;component/Resources/rielt.png"/>
+                </Grid.Background>
+                <Grid Grid.Row="0" Grid.Column="0" Height="60" VerticalAlignment="Top" Width="500" HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <ToggleButton Name="BuyButton" Grid.Row="0" Grid.Column="0" Width="126" Content="Купить" HorizontalAlignment="Right" IsChecked="{Binding CurrentTransaction, ConverterParameter=Buy, Mode=TwoWay, Converter={StaticResource TransactionConverter}}" />
+                    <ToggleButton Name="RentButton" Grid.Row="0" Grid.Column="1" Width="126" Content="Снять" HorizontalAlignment="Right"  IsChecked="{Binding CurrentTransaction, ConverterParameter=Rent, Mode=TwoWay, Converter={StaticResource TransactionConverter}}"/>
+                    <ToggleButton Width="126" Grid.Row="1" Grid.Column="0" Content="Квартиру" HorizontalAlignment="Right" IsChecked="{Binding CurrentPurchase, ConverterParameter=Flat, Mode=TwoWay, Converter={StaticResource PurchaseConverter}}" />
+                    <ToggleButton Width="126" Grid.Row="1" Grid.Column="1" Content="Дом" HorizontalAlignment="Right" IsChecked="{Binding CurrentPurchase, ConverterParameter=Home, Converter={StaticResource PurchaseConverter}, Mode=TwoWay}" />
+                    <ToggleButton Width="126" Grid.Row="1" Grid.Column="2" Content="Участок" HorizontalAlignment="Right" IsChecked="{Binding CurrentPurchase, ConverterParameter=Site, Converter={StaticResource PurchaseConverter}, Mode=TwoWay}" />
+                    <ToggleButton Width="126" Grid.Row="1" Grid.Column="3" Content="Нежилое" HorizontalAlignment="Right"  IsChecked="{Binding CurrentPurchase, ConverterParameter=Commerce, Converter={StaticResource PurchaseConverter}, Mode=TwoWay}" />
+                </Grid>
+                <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <TextBlock Text="{Binding UserName}" HorizontalAlignment="Center"/>
+                    <CheckBox Content="Мини изображения" IsChecked="False" Name="MiniImgs"></CheckBox>
+                    <Label HorizontalAlignment="Center">
+                        <Hyperlink Command="{Binding ExitCommand}">Выйти</Hyperlink>
+                    </Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,61,0,0"  Grid.Row="0" Grid.ColumnSpan="2"  VerticalAlignment="Top" HorizontalAlignment="Left" >
+                    <Expander Grid.Column="1" Grid.Row="0" Width="200">
+                        <Expander.Header>
+                            <TextBlock Text="{Binding StringFormat=Цена {0} тыс. рублей, ElementName=PriceSlider, Path=TextS}"/>
+                        </Expander.Header>
+                        <local:RangeSliderBar x:Name="PriceSlider" Minimum="500" Maximum="3000" LowerValue="{Binding searchSet.MinPrice, Converter={StaticResource SliderValueToSearchSet}, UpdateSourceTrigger=PropertyChanged}" 
+                                          UpperValue="{Binding searchSet.MaxPrice, Converter={StaticResource SliderValueToSearchSet}, ConverterParameter=9000, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Expander>
+                    <Expander Grid.Column="1" Grid.Row="0" Width="200" >
+                        <Expander.Header>
+                            <TextBlock Text="{Binding StringFormat=Площадь {0} m&#x00B2;, ElementName=AreaSlider, Path=TextS}"/>
+                        </Expander.Header>
+                        <local:RangeSliderBar x:Name="AreaSlider" Minimum="20" Maximum="200"  LowerValue="{Binding searchSet.MinArea, Converter={StaticResource SliderValueToSearchSet}, UpdateSourceTrigger=PropertyChanged}" 
+                                          UpperValue="{Binding searchSet.MaxArea, Converter={StaticResource SliderValueToSearchSet}, ConverterParameter=200, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Expander>
+                    <Expander Grid.Column="1" Grid.Row="0" Width="200" Visibility="{Binding CurrentPurchase, Converter={StaticResource PurchaseToVisible}, ConverterParameter=Floor}">
+                        <Expander.Header>
+                            <TextBlock Text="{Binding StringFormat=Этаж {0}, ElementName=FloorSlider, Path=TextS}"/>
+                        </Expander.Header>
+                        <local:RangeSliderBar x:Name="FloorSlider" Minimum="1" Maximum="25"  LowerValue="{Binding searchSet.MinFloor, Converter={StaticResource SliderValueToSearchSet}, UpdateSourceTrigger=PropertyChanged}" 
+                                          UpperValue="{Binding searchSet.MaxFloor, Converter={StaticResource SliderValueToSearchSet}, ConverterParameter=25, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Expander>
+                    <Expander Grid.Column="1" Grid.Row="0" Width="200" Visibility="{Binding CurrentPurchase, Converter={StaticResource PurchaseToVisible}, ConverterParameter=Rooms}">
+                        <Expander.Header>
+                            <TextBlock Text="{Binding StringFormat=Комнат {0}, ElementName=RoomsSlider, Path=TextS}"/>
+                        </Expander.Header>
+                        <local:RangeSliderBar x:Name="RoomsSlider" Minimum="1" Maximum="8"  LowerValue="{Binding searchSet.MinRooms, Converter={StaticResource SliderValueToSearchSet}, UpdateSourceTrigger=PropertyChanged}" 
+                                          UpperValue="{Binding searchSet.MaxRooms, Converter={StaticResource SliderValueToSearchSet}, ConverterParameter=8, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Expander>
+                    <Expander Grid.Column="1" Grid.Row="0" Width="200" Visibility="{Binding CurrentPurchase, Converter={StaticResource PurchaseToVisible}, ConverterParameter=HouseFloor}">
+                        <Expander.Header>
+                            <TextBlock Text="{Binding StringFormat=Количество этажей {0}, ElementName=HouseFloorSlider, Path=TextS}"/>
+                        </Expander.Header>
+                        <local:RangeSliderBar x:Name="HouseFloorSlider" Minimum="1" Maximum="4"  LowerValue="{Binding searchSet.MinFloorNumbers, Converter={StaticResource SliderValueToSearchSet}, UpdateSourceTrigger=PropertyChanged}" 
+                                          UpperValue="{Binding searchSet.MaxFloorNumbers, Converter={StaticResource SliderValueToSearchSet}, ConverterParameter=4, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Expander>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <Image Panel.ZIndex="1" Name="Photo" Source="{Binding ElementName=grid, Path=SelectedItem, Converter={StaticResource ItemsConverter}}"  MouseDown="Image_MouseDown" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Grid>
+</Window>

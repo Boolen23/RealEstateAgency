@@ -1,0 +1,271 @@
+﻿<Window x:Class="RealEstateAgency.View.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local ="clr-namespace:RealEstateAgency"
+        xmlns:conv ="clr-namespace:RealEstateAgency.Converter"
+        mc:Ignorable="d"
+        Title="EditWindow" Height="450" Width="800.271" WindowState="Maximized">
+    <Window.Resources>
+        <local:BindingProxy x:Key="ImgProxy" Data="{Binding ElementName=MiniImgs, Path=IsChecked}" />
+        <local:BindingProxy x:Key="PhotoSelectProxy" Data="{Binding ElementName=PhotoSelect, Path=IsChecked}" />
+        <local:BindingProxy x:Key="IdProxy" Data="{Binding TransactionData}"/>
+        <local:BindingProxy x:Key="OfficeEmployeeIdProxy" Data="{Binding OfficeEmployeeData}"/>
+        <local:BindingProxy x:Key="ComProxy" Data="{Binding EditRowCommand}"/>
+        <local:BindingProxy x:Key="PhotoCommandProxy" Data="{Binding NewPhoto}"/>
+
+        <Style x:Key="DGridCentAl" TargetType="DataGridColumnHeader">
+            <Setter Property="Thumb.HorizontalContentAlignment" Value="Center" />
+        </Style>
+        <conv:CollectionToCount x:Key="CollToCount"/>
+        <conv:BoolToVisible x:Key="BoolToVisible"/>
+        <conv:DataTableToIdList x:Key="TableToId"/>
+        <conv:DataTableToCount x:Key="TableRowCount"/>
+        <conv:RowsCountToEnabled x:Key="CountToEnabled"/>
+        <conv:PurchaseToBoolConverter x:Key="PurchaseConverter"/>
+        <conv:PurchaseToTextConverter x:Key="PurchaseToTextConverter"/>
+        <conv:ExistanceToVisible x:Key="ExistanceToVisibleConvertor"/>
+        <conv:DataRowViewToRow x:Key="DataRowViewToRowConvertor"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid  Grid.Row="1" Grid.Column="0" Height="30" VerticalAlignment="Bottom" Margin="0,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding TransactionData, Converter={StaticResource TableRowCount}}" Grid.Column="0" Grid.Row="0" Margin="5,0,0,0"/>
+            <TextBlock Text="{Binding TransactionsEdit, Converter={StaticResource CollToCount}}" Grid.Column="0" Grid.Row="1" Margin="5,0,0,0"/>
+            <Button Content="Принять" Command="{Binding UpdateTransactionData}" IsEnabled="{Binding TransactionsEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="1" Grid.RowSpan="2"/>
+            <Button Content="Отменить" Command="{Binding ResetTransactionData}" IsEnabled="{Binding TransactionsEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="2" Grid.RowSpan="2"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="0" Height="30" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding EmployeeData, Converter={StaticResource TableRowCount}}" Grid.Column="0" Grid.Row="0" Margin="5,0,0,0"/>
+            <TextBlock Text="{Binding EmployeeEdit, Converter={StaticResource CollToCount}}" Grid.Column="0" Grid.Row="1" Margin="5,0,0,0"/>
+            <Button Content="Принять" Command="{Binding UpdateEmployeeData}" IsEnabled="{Binding EmployeeEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="1" Grid.RowSpan="2"/>
+            <Button Content="Отменить" Command="{Binding ResetEmployeeData}" IsEnabled="{Binding EmployeeEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="2" Grid.RowSpan="2"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1" Height="30" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding SaleData, Converter={StaticResource TableRowCount}}" Grid.Column="0" Grid.Row="0" Margin="5,0,0,0"/>
+            <TextBlock Text="{Binding SaleEdit, Converter={StaticResource CollToCount}}" Grid.Column="0" Grid.Row="1" Margin="5,0,0,0"/>
+            <Button Content="Принять" Command="{Binding UpdateSaleData}" IsEnabled="{Binding SaleEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="1" Grid.RowSpan="2"/>
+            <Button Content="Отменить" Command="{Binding ResetSaleData}" IsEnabled="{Binding SaleEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="2" Grid.RowSpan="2"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="2" Height="30" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding SeekerData, Converter={StaticResource TableRowCount}}" Grid.Column="0" Grid.Row="0" Margin="5,0,0,0"/>
+            <TextBlock Text="{Binding SeekerEdit, Converter={StaticResource CollToCount}}" Grid.Column="0" Grid.Row="1" Margin="5,0,0,0"/>
+            <Button Content="Принять" Command="{Binding UpdateSeekerData}" IsEnabled="{Binding SeekerEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="1" Grid.RowSpan="2"/>
+            <Button Content="Отменить" Command="{Binding ResetSeekerData}" IsEnabled="{Binding SeekerEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="2" Grid.RowSpan="2"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="3" Height="30" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding OfficeData, Converter={StaticResource TableRowCount}}" Grid.Column="0" Grid.Row="0" Margin="5,0,0,0"/>
+            <TextBlock Text="{Binding OfficeEdit, Converter={StaticResource CollToCount}}" Grid.Column="0" Grid.Row="1" Margin="5,0,0,0"/>
+            <Button Content="Принять" Command="{Binding UpdateOfficeData}" IsEnabled="{Binding OfficeEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="1" Grid.RowSpan="2"/>
+            <Button Content="Отменить" Command="{Binding ResetOfficeData}" IsEnabled="{Binding OfficeEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="2" Grid.RowSpan="2"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="4" Height="30" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding OfficeEmployeeData, Converter={StaticResource TableRowCount}}" Grid.Column="0" Grid.Row="0" Margin="2,0,0,0"/>
+            <TextBlock Text="{Binding OfficeEmployeeEdit, Converter={StaticResource CollToCount}}" Grid.Column="0" Grid.Row="1" Margin="2,0,0,0"/>
+            <Button Content="Принять" Command="{Binding UpdateOfficeEmployeeData}" IsEnabled="{Binding OfficeEmployeeEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="1" Grid.RowSpan="2"/>
+            <Button Content="Отменить" Command="{Binding ResetOfficeEmployeeData}" IsEnabled="{Binding OfficeEmployeeEdit, Converter={StaticResource CountToEnabled}}" Grid.Column="2" Grid.RowSpan="2"/>
+        </Grid>
+
+        <TextBlock Visibility="{Binding Info, Converter={StaticResource BoolToVisible}}" Grid.Row="1" FontFamily="Arial Bold" FontSize="22" Grid.ColumnSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="1">
+            <TextBlock.Triggers>
+                <EventTrigger RoutedEvent="TextBlock.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <StringAnimationUsingKeyFrames Storyboard.TargetProperty="Text"  Duration="0:0:1.5" RepeatBehavior="Forever">
+                                <DiscreteStringKeyFrame Value="Загрузка данных." KeyTime="0%" />
+                                <DiscreteStringKeyFrame Value="Загрузка данных.." KeyTime="30%" />
+                                <DiscreteStringKeyFrame Value="Загрузка данных..." KeyTime="60%" />
+                            </StringAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </TextBlock.Triggers></TextBlock>
+
+        <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1" Grid.ColumnSpan="4"/>
+        <Border BorderThickness="1" BorderBrush="Black" Grid.Row="1" Grid.Column="5"/>
+        <Border BorderThickness="1" BorderBrush="Black" Grid.Row="0" Grid.Column="0"/>
+        <Border BorderThickness="1" BorderBrush="Black" Grid.Row="0" Grid.Column="1"/>
+        <Border BorderThickness="1" BorderBrush="Black" Grid.Row="0" Grid.Column="2"/>
+        <Border BorderThickness="1" BorderBrush="Black" Grid.Row="0" Grid.Column="3"/>
+        <Border BorderThickness="1" BorderBrush="Black" Grid.Row="0" Grid.Column="4"/>
+
+        <TextBlock FontFamily="Arial Bold" Text="{Binding CurrentPurchase, Converter={StaticResource PurchaseToTextConverter}}" Grid.Row="1" Grid.ColumnSpan="4" HorizontalAlignment="Center"/>
+        <TextBlock FontFamily="Arial Bold" Text="EmployeeData" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center"/>
+        <TextBlock FontFamily="Arial Bold" Text="SaleData" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center"/>
+        <TextBlock FontFamily="Arial Bold" Text="SeekerData" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center"/>
+        <TextBlock FontFamily="Arial Bold" Text="OfficeData" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center"/>
+        <TextBlock FontFamily="Arial Bold" Text="OfficeEmployeeData" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center"/>
+
+        <DataGrid CanUserDeleteRows="False" ColumnHeaderStyle="{StaticResource DGridCentAl}"  ColumnWidth="*" Name="TransactionData" AutoGeneratedColumns="TransactionData_AutoGeneratedColumns" AutoGeneratingColumn="TransactionData_AutoGeneratingColumn" IsReadOnly="False" Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding TransactionData}" SelectedItem="{Binding NewTransactionRow}" Margin="0,15,0,30">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Visibility="{Binding Data, Converter={StaticResource BoolToVisible}, Source={StaticResource ImgProxy}}"   Header="Image">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Width="80" Height="80" Source="{Binding Image}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="ClientSaleId">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Height="20" ItemsSource="{Binding Data, ConverterParameter=ClientSaleId, Converter={StaticResource TableToId}, Source={StaticResource IdProxy}, Mode=TwoWay}" SelectedItem="{Binding ClientSaleId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="EmployeeId">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Height="20" ItemsSource="{Binding Data, ConverterParameter=EmployeeId, Converter={StaticResource TableToId}, Source={StaticResource IdProxy}}" SelectedItem="{Binding EmployeeId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="Transaction">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Height="20" ItemsSource="{Binding Data, ConverterParameter=TypeTransaction, Converter={StaticResource TableToId}, Source={StaticResource IdProxy}}" SelectedItem="{Binding TypeTransaction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Visibility="{Binding Data, Converter={StaticResource BoolToVisible}, Source={StaticResource PhotoSelectProxy}}" Header="Photo">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Height="20" Content="Выбор фото" Command="{Binding Path=DataContext.NewPhoto, RelativeSource={RelativeSource AncestorType={x:Type  DataGrid}}}" CommandParameter="{Binding Path=SelectedItem ,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.InputBindings>
+                <KeyBinding Command="{Binding TransactionDataDelete}" CommandParameter="{Binding ElementName=TransactionData, Path=SelectedItems}" Key="Delete"/>
+            </DataGrid.InputBindings>
+        </DataGrid>
+        <DataGrid ColumnHeaderStyle="{StaticResource DGridCentAl}" Margin="0,15,0,30" ColumnWidth="*" Name="SeekerData" IsReadOnly="False" Grid.Row="0" Grid.Column="2" ItemsSource="{Binding SeekerData}">
+            <DataGrid.InputBindings>
+                <KeyBinding Command="{Binding SeekerDataDelete}" CommandParameter="{Binding ElementName=SeekerData, Path=SelectedItems}" Key="Delete"/>
+            </DataGrid.InputBindings>
+        </DataGrid>
+        <DataGrid ColumnHeaderStyle="{StaticResource DGridCentAl}" Margin="0,15,0,30" ColumnWidth="*" Name="EmployeeData" IsReadOnly="False" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding EmployeeData}">
+            <DataGrid.InputBindings>
+                <KeyBinding Command="{Binding EmployeeDataDelete}" CommandParameter="{Binding ElementName=EmployeeData, Path=SelectedItems}" Key="Delete"/>
+            </DataGrid.InputBindings>
+        </DataGrid>
+        <DataGrid ColumnHeaderStyle="{StaticResource DGridCentAl}" Margin="0,15,0,30" ColumnWidth="*" Name="SaleData" IsReadOnly="False" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding SaleData}">
+            <DataGrid.InputBindings>
+                <KeyBinding Command="{Binding SaleDataDelete}" CommandParameter="{Binding ElementName=SaleData, Path=SelectedItems}" Key="Delete"/>
+            </DataGrid.InputBindings>
+        </DataGrid>
+        <DataGrid ColumnHeaderStyle="{StaticResource DGridCentAl}" Margin="0,15,0,30" ColumnWidth="*" Name="OfficeData" IsReadOnly="False" Grid.Row="0" Grid.Column="3" ItemsSource="{Binding OfficeData}">
+            <DataGrid.InputBindings>
+                <KeyBinding Command="{Binding OfficeDataDelete}" CommandParameter="{Binding ElementName=OfficeData, Path=SelectedItems}" Key="Delete"/>
+            </DataGrid.InputBindings>
+        </DataGrid>
+        <DataGrid  ColumnHeaderStyle="{StaticResource DGridCentAl}" Margin="0,15,0,30" ColumnWidth="*" Name="OfficeEmployeeData" IsReadOnly="False" Grid.Row="1" Grid.Column="4" ItemsSource="{Binding  OfficeEmployeeData}" SelectedItem="{Binding NewOfficeEmployeeRow}"  AutoGeneratingColumn="OfficeEmployeeData_AutoGeneratingColumn">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn  Header="OfficeId">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Height="20" ItemsSource="{Binding Data, ConverterParameter=OfficeId, Converter={StaticResource TableToId}, Source={StaticResource OfficeEmployeeIdProxy}, Mode=TwoWay}" SelectedItem="{Binding OfficeId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            </ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn  Header="EmployeeId">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox Height="20" ItemsSource="{Binding Data, ConverterParameter=EmployeeId, Converter={StaticResource TableToId}, Source={StaticResource OfficeEmployeeIdProxy}}" SelectedItem="{Binding EmployeeId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.InputBindings>
+                <KeyBinding Command="{Binding OfficeEmployeeDataDelete}" CommandParameter="{Binding ElementName=OfficeEmployeeData, Path=SelectedItems}" Key="Delete"/>
+            </DataGrid.InputBindings>
+        </DataGrid>
+        <Grid Background="#99bbff" Height="30" VerticalAlignment="Bottom" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Row="0" Grid.Column="0"  VerticalAlignment="Bottom"  Content="Квартиры" IsChecked="{Binding CurrentPurchase, ConverterParameter=Flat, Converter={StaticResource PurchaseConverter}, Mode=TwoWay}"/>
+            <CheckBox Grid.Row="0" Grid.Column="1"  VerticalAlignment="Bottom"  Content="Участки" IsChecked="{Binding CurrentPurchase, ConverterParameter=Site, Converter={StaticResource PurchaseConverter}, Mode=TwoWay}"/>
+            <CheckBox Grid.Row="1" Grid.Column="0"   VerticalAlignment="Bottom"  Content="Дома" IsChecked="{Binding CurrentPurchase, ConverterParameter=Home, Converter={StaticResource PurchaseConverter}, Mode=TwoWay}"/>
+            <CheckBox Grid.Row="1" Grid.Column="1"  VerticalAlignment="Bottom"  Content="Нежилое" IsChecked="{Binding CurrentPurchase, ConverterParameter=Commerce, Converter={StaticResource PurchaseConverter}, Mode=TwoWay}"/>
+
+            <CheckBox Grid.Row="0" Grid.Column="2"  Name="MiniImgs" VerticalAlignment="Bottom" Content="Мини изображения"/>
+            <CheckBox Grid.Row="1" Grid.Column="2"  Name="PhotoSelect" VerticalAlignment="Bottom" Content="Выбор фото"/>
+
+            <Label  Grid.Column="3" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Hyperlink Command="{Binding ExitCommand}" FontSize="16"  FontFamily="Bold">Выйти</Hyperlink>
+            </Label>
+        </Grid>
+    </Grid>
+</Window>
