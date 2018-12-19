@@ -32,11 +32,22 @@ namespace RealEstateAgency
         }
         public void CreateAccessWindow(IWindowController controller)
         {
-            AccessWindow window = new AccessWindow()
+            if (DBPath == string.Empty)
             {
-                DataContext = new AccessViewModel(this)
-            };
-            CurrentWindow = window;
+                AccessWindow window = new AccessWindow()
+                {
+                    DataContext = new AccessViewModel(this)
+                };
+                CurrentWindow = window;
+            }
+            else
+            {
+                AccessWindow window = new AccessWindow()
+                {
+                    DataContext = new AccessViewModel(this, DBPath)
+                };
+                CurrentWindow = window;
+            }
         }
         public void CreateEditWindow(IWindowController controller, AgencySQLDb sqlDb)
         {
@@ -51,6 +62,11 @@ namespace RealEstateAgency
             this.CurrentWindow.Close();
             Application.Current.Shutdown();
         }
+        public void SetDBPath(string temppath)
+        {
+            DBPath = temppath;
+        }
+        private string DBPath = string.Empty;
 
     }
 }

@@ -2,7 +2,6 @@
 using System;
 using System.Data;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace RealEstateAgency.ViewModel
 {
@@ -14,35 +13,47 @@ namespace RealEstateAgency.ViewModel
             RegistrationMode = false;
             dialogService = new DefaultDialogService();
         }
+        public AccessViewModel(IWindowController windowFactory, string Path)
+        {
+            this.windowFactory = windowFactory;
+            RegistrationMode = false;
+            dialogService = new DefaultDialogService();
+            this.DBPath = Path;
+        }
+
         private async void InitializeDB()
         {
             ErrorText = "Установка связи с БД...";
             await Task.Run(() =>
             {
                 SQLDb = new AgencySQLDb();
-                // DBConnected = SQLDb.TryConnect();
-
+                if (DBPath != string.Empty)
+                    DBConnected = SQLDb.TryOpen(DBPath);
+                else DBConnected = SQLDb.TryConnect();
             });
             if (!DBConnected)
             {
                 ErrorText = "База данных не найдена или не распознана, выберите расположение базы";
                 while (DBConnected == false)
                     if (dialogService.OpenFileDialog())
+                    {
                         DBConnected = SQLDb.TryOpen(dialogService.FilePath);
+                        windowFactory.SetDBPath(dialogService.FilePath);
+                    }
                     else
                     {
                         windowFactory.CloseApp();
                         break;
                     }
-                if (DBConnected)
-                {
-                    ErrorText = "Загрузка данных...";
-                    UserData = SQLDb.GetLoginData();
-                    UserData.RowChanged += UserData_RowChanged;
-                    Login = "Admin";
-                    Password = "Admin";
-                    ErrorText = null;
-                }
+            }
+            if (DBConnected)
+            {
+                ErrorText = "Загрузка данных...";
+                UserData = SQLDb.GetLoginData();
+                UserData.RowChanged += UserData_RowChanged;
+                Login = "Admin";
+                Password = "Admin";
+                ErrorText = null;
             }
         }
         private async void UserData_RowChanged(object sender, DataRowChangeEventArgs e)
@@ -58,9 +69,9 @@ namespace RealEstateAgency.ViewModel
         private AgencySQLDb SQLDb;
         private readonly IWindowController windowFactory;
         private readonly IDialogService dialogService;
-
-
         #region Propertyes
+        private string DBPath = string.Empty;
+
         private DataRow _SelectedLoginRow;
         public DataRow SelectedLoginRow
         {
@@ -336,11 +347,6 @@ namespace RealEstateAgency.ViewModel
         {
             InitializeDB();
         }
-
         #endregion
-
-
-
-
     }
 }
