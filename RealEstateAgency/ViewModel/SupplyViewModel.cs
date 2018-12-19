@@ -43,14 +43,15 @@ namespace RealEstateAgency.ViewModel
         public RelayCommand Add => add ?? (add = new RelayCommand(AddMethod));
         void AddMethod()
         {
-            for (int i = 0; i < 222; i++)
-                db.InsertIntoHomeTransaction(db.RandomClient, db.RandomEmployee, NextAdress, RandomTransaction, NextPrice, NextFloorNumbers, NextArea, RandomDate, NextHome);
-            for (int i = 0; i < 222; i++)
-                db.InsertIntoApartamentTransaction(db.RandomClient, db.RandomEmployee, NextAdress, RandomTransaction, NextNumberOfRooms, NextPrice, NextFloor, NextArea, RandomDate, NextFlat);
-            for (int i = 0; i < 222; i++)
-                db.InsertIntoSiteTransaction(db.RandomClient, db.RandomEmployee, NextAdress, RandomTransaction, NextPrice, NextPurpose, NextArea, RandomDate, NextSite);
-            for (int i = 0; i <1; i++)
-                db.InsertIntoCommerceTransaction(db.RandomClient, db.RandomEmployee, NextAdress, RandomTransaction, NextPrice, NextArea, RandomDate, NextCommerce);
+            for (int i = 0; i < 5; i++)
+                db.InsertIntoApartamentTransaction(db.RandomClient, db.RandomEmployee, NextAdress, RandomTransaction, NextNumberOfRooms, NextPrice, NextFloor, NextArea, RandomDate, string.Empty);
+            for (int i = 0; i < 5; i++)
+                db.InsertIntoSiteTransaction(db.RandomClient, db.RandomEmployee, NextAdress, RandomTransaction, NextPrice, NextPurpose, NextArea, RandomDate, string.Empty);
+            for (int i = 0; i < 5; i++)
+                db.InsertIntoCommerceTransaction(db.RandomClient, db.RandomEmployee, NextAdress, RandomTransaction, NextPrice, NextArea, RandomDate, string.Empty);
+            for (int i = 0; i < 5; i++)
+                db.InsertIntoHomeTransaction(db.RandomClient, db.RandomEmployee, NextAdress, RandomTransaction, NextPrice, NextFloorNumbers, NextArea, RandomDate, string.Empty);
+
             UpdateTransactionTable();
         }
         #endregion

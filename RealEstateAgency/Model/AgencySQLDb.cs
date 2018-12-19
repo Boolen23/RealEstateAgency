@@ -34,7 +34,7 @@ namespace RealEstateAgency.ViewModel
                 #endregion
                 return true;
             }
-            catch 
+            catch
             {
                 return false;
             }
@@ -53,23 +53,9 @@ namespace RealEstateAgency.ViewModel
                 return false;
             }
         }
-        private async void createDb()
-        {
-            conn.Close();
-            conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Integrated Security=True");
-            SqlCommand cmdCreateDataBase = new SqlCommand(string.Format(@"CREATE DATABASE [{0}]" , "AgencyDb1"), conn);
-            conn.Open();
-            cmdCreateDataBase.ExecuteNonQuery();
-            await Task.Delay(200);
-            conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Integrated Security=True");
-            conn.Open();
-        }
         public event EventHandler DBChanged;
         string connStr = string.Format(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={0}\AgencyDb.mdf;Integrated Security=True", Directory.GetCurrentDirectory());
-
-        //string connStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\OskarSparta\source\repos\RealEstateAgency\RealEstateAgency\AgencyDb.mdf;Integrated Security=True";
         private SqlConnection conn;
-        public bool IsBusy { get; private set; } = false;
 
         #region LoginTable
         public DataTable GetLoginData()
@@ -179,12 +165,10 @@ namespace RealEstateAgency.ViewModel
                 "JOIN Office ON Employee.Id = Office.Id " +
                 "WHERE TypeTransaction = @transaction" + search, conn);
             cmd.Parameters.AddWithValue("@transaction", ConvertTransaction(transaction));
-            IsBusy = true;
             var dataReader = cmd.ExecuteReader();
             var dataTable = new DataTable();
             dataTable.Load(dataReader);
             dataReader.Close();
-            IsBusy = false;
             return dataTable;
         }
         private DataTable AdminApartamentTransaction(Transaction transaction, string search)
@@ -211,12 +195,10 @@ namespace RealEstateAgency.ViewModel
                 "WHERE TypeTransaction = @transaction" + search
                 , conn);
             cmd.Parameters.AddWithValue("@transaction", ConvertTransaction(transaction));
-            IsBusy = true;
             var dataReader = cmd.ExecuteReader();
             var dataTable = new DataTable();
             dataTable.Load(dataReader);
             dataReader.Close();
-            IsBusy = false;
             return dataTable;
         }
 
@@ -243,12 +225,10 @@ namespace RealEstateAgency.ViewModel
                 "WHERE TypeTransaction = @transaction" + search
                 , conn);
             cmd.Parameters.AddWithValue("@transaction", ConvertTransaction(transaction));
-            IsBusy = true;
             var dataReader = cmd.ExecuteReader();
             var dataTable = new DataTable();
             dataTable.Load(dataReader);
             dataReader.Close();
-            IsBusy = false;
             return dataTable;
         }
         private DataTable ClientHomeTransaction(Transaction transaction, string search)
@@ -269,12 +249,10 @@ namespace RealEstateAgency.ViewModel
                 "WHERE TypeTransaction = @transaction" + search
                 , conn);
             cmd.Parameters.AddWithValue("@transaction", ConvertTransaction(transaction));
-            IsBusy = true;
             var dataReader = cmd.ExecuteReader();
             var dataTable = new DataTable();
             dataTable.Load(dataReader);
             dataReader.Close();
-            IsBusy = false;
             return dataTable;
         }
 
@@ -301,12 +279,10 @@ namespace RealEstateAgency.ViewModel
                 "WHERE TypeTransaction = @transaction" + search
                 , conn);
             cmd.Parameters.AddWithValue("@transaction", ConvertTransaction(transaction));
-            IsBusy = true;
             var dataReader = cmd.ExecuteReader();
             var dataTable = new DataTable();
             dataTable.Load(dataReader);
             dataReader.Close();
-            IsBusy = false;
             return dataTable;
         }
         private DataTable ClientSiteTransaction(Transaction transaction, string search)
@@ -326,12 +302,10 @@ namespace RealEstateAgency.ViewModel
                 "WHERE TypeTransaction = @transaction" + search
                 , conn);
             cmd.Parameters.AddWithValue("@transaction", ConvertTransaction(transaction));
-            IsBusy = true;
             var dataReader = cmd.ExecuteReader();
             var dataTable = new DataTable();
             dataTable.Load(dataReader);
             dataReader.Close();
-            IsBusy = false;
             return dataTable;
         }
 
@@ -357,12 +331,10 @@ namespace RealEstateAgency.ViewModel
                 "WHERE TypeTransaction = @transaction" + search
                 , conn);
             cmd.Parameters.AddWithValue("@transaction", ConvertTransaction(transaction));
-            IsBusy = true;
             var dataReader = cmd.ExecuteReader();
             var dataTable = new DataTable();
             dataTable.Load(dataReader);
             dataReader.Close();
-            IsBusy = false;
             return dataTable;
         }
         private DataTable ClientCommerceTransaction(Transaction transaction, string search)
@@ -381,12 +353,10 @@ namespace RealEstateAgency.ViewModel
                 "WHERE TypeTransaction = @transaction" + search
                 , conn);
             cmd.Parameters.AddWithValue("@transaction", ConvertTransaction(transaction));
-            IsBusy = true;
             var dataReader = cmd.ExecuteReader();
             var dataTable = new DataTable();
             dataTable.Load(dataReader);
             dataReader.Close();
-            IsBusy = false;
             return dataTable;
         }
 
@@ -408,6 +378,7 @@ namespace RealEstateAgency.ViewModel
                 "VALUES (@ClientSaleId, @EmployeeId, @ObjectAdress, @TypeTransaction, @NumberOfRooms," +
                 " @Price, @Floor, @Area, @Date, @Image)", conn);
 
+            if (imgPath == string.Empty) imgPath = Directory.GetCurrentDirectory() + "/Resources/0.jpg";
             ImageSource imageSource = new BitmapImage(new Uri(imgPath));
             MemoryStream ms = StreamFromBitmapSource(imageSource as BitmapSource);
 
@@ -477,6 +448,7 @@ namespace RealEstateAgency.ViewModel
                 " VALUES (@ClientSaleId, @EmployeeId, @ObjectAdress, @TypeTransaction," +
                 " @Price, @FloorNumbers, @Area, @Date, @Image)", conn);
 
+            if (imgPath == string.Empty) imgPath = Directory.GetCurrentDirectory() + "/Resources/1.jpg";
             ImageSource imageSource = new BitmapImage(new Uri(imgPath));
             MemoryStream ms = StreamFromBitmapSource(imageSource as BitmapSource);
 
@@ -499,6 +471,7 @@ namespace RealEstateAgency.ViewModel
                 " VALUES (@ClientSaleId, @EmployeeId, @ObjectAdress, @Area," +
                 " @Purpose, @Price, @Date, @Image, @TypeTransaction)", conn);
 
+            if (imgPath == string.Empty) imgPath = Directory.GetCurrentDirectory() + "/Resources/32.jpg";
             ImageSource imageSource = new BitmapImage(new Uri(imgPath));
             MemoryStream ms = StreamFromBitmapSource(imageSource as BitmapSource);
 
@@ -521,6 +494,10 @@ namespace RealEstateAgency.ViewModel
                 " VALUES (@ClientSaleId, @EmployeeId, @ObjectAdress, @TypeTransaction," +
                 " @Price, @Area, @Date, @Image)", conn);
 
+            if (imgPath == string.Empty) imgPath = Directory.GetCurrentDirectory() + "/Resources/2.jpg";
+            ImageSource imageSource = new BitmapImage(new Uri(imgPath));
+            MemoryStream ms = StreamFromBitmapSource(imageSource as BitmapSource);
+
             cmd.Parameters.AddWithValue("@ClientSaleId", saleId);
             cmd.Parameters.AddWithValue("@EmployeeId", employeeId);
             cmd.Parameters.AddWithValue("@ObjectAdress", address);
@@ -528,7 +505,8 @@ namespace RealEstateAgency.ViewModel
             cmd.Parameters.AddWithValue("@Price", price);
             cmd.Parameters.AddWithValue("@Area", area);
             cmd.Parameters.AddWithValue("@Date", date);
-            cmd.Parameters.AddWithValue("@Image", imgPath.ToByteArray());
+            cmd.Parameters.AddWithValue("@Image", ms.ToArray());
+            ms.Dispose();
             cmd.ExecuteNonQuery();
         }
 

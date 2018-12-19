@@ -146,6 +146,7 @@
                         <local:RangeSliderBar x:Name="HouseFloorSlider" Minimum="1" Maximum="4"  LowerValue="{Binding searchSet.MinFloorNumbers, Converter={StaticResource SliderValueToSearchSet}, UpdateSourceTrigger=PropertyChanged}" 
                                           UpperValue="{Binding searchSet.MaxFloorNumbers, Converter={StaticResource SliderValueToSearchSet}, ConverterParameter=4, UpdateSourceTrigger=PropertyChanged}"/>
                     </Expander>
+                    <Button Content="GenerateData" Command="{Binding Add}" Width="120"/>
                 </StackPanel>
             </Grid>
         </Grid>

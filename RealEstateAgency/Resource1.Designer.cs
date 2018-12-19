@@ -22,7 +22,7 @@ namespace RealEstateAgency {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resource1 {
+    public class Resource1 {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace RealEstateAgency {
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RealEstateAgency.Resource1", typeof(Resource1).Assembly);
@@ -51,7 +51,7 @@ namespace RealEstateAgency {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,10 +63,148 @@ namespace RealEstateAgency {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap rielt {
+        public static System.Drawing.Bitmap _0 {
+            get {
+                object obj = ResourceManager.GetObject("_0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap _1 {
+            get {
+                object obj = ResourceManager.GetObject("_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap _2 {
+            get {
+                object obj = ResourceManager.GetObject("_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap _32 {
+            get {
+                object obj = ResourceManager.GetObject("_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap rielt {
             get {
                 object obj = ResourceManager.GetObject("rielt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Слобожанина Софья Карповна 
+        ///Курзыбова Всеслава Карповна 
+        ///Антоновича Ирина Мироновна 
+        ///Соловаьева Пелагея Феликсовна 
+        ///Абоймов Клавдий Платонович 
+        ///Рябкина Светлана Вячеславовна 
+        ///Яшкин Ян Федотович 
+        ///Борисюка Ираида Ефимовна 
+        ///Ахременко Зоя Карповна 
+        ///Кудашова Алина Родионовна 
+        ///Манина Любовь Данииловна 
+        ///Гарина Альбина Семеновна 
+        ///Гусин Евсей Всеволодович 
+        ///Демидова Людмила Степановна 
+        ///Ярусов Терентий Михаилович 
+        ///Кускова Кристина Якововна 
+        ///Чепурин Юлиан Артемиевич 
+        ///Осин Всеслав Венедиктович 
+        ///Жвикова [остаток строки не уместился]&quot;;.
+        /// </summary>
+        public static string имя_фамилия {
+            get {
+                return ResourceManager.GetString("имя_фамилия", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на 8(2274)028-26-87
+        ///8(28)471-21-25
+        ///8(02)696-32-81
+        ///8(319)360-18-20
+        ///8(68)804-41-56
+        ///8(261)807-54-85
+        ///8(216)984-95-31
+        ///8(368)250-41-20
+        ///8(27)761-39-20
+        ///8(199)423-85-07
+        ///8(23)643-75-65
+        ///8(42)714-75-66
+        ///8(817)932-73-40
+        ///8(158)053-29-64
+        ///8(7943)195-26-72
+        ///8(9034)856-64-72
+        ///8(9244)244-60-65
+        ///8(812)121-46-22
+        ///8(99)714-64-81
+        ///8(058)542-13-34
+        ///8(477)300-69-02
+        ///8(1636)496-08-25
+        ///8(47)821-39-91
+        ///8(92)821-54-88
+        ///8(33)938-29-27
+        ///8(8590)890-18-30
+        ///8(6230)213-61-29
+        ///8(59)271-86-27
+        ///8(186)178-79-18
+        ///8(4930)601-10-44
+        ///8(524 [остаток строки не уместился]&quot;;.
+        /// </summary>
+        public static string номера_телефонов {
+            get {
+                return ResourceManager.GetString("номера_телефонов", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Адриановский переулок, Мещанской части.
+        ///
+        ///Александровская улица, Сущевской части.
+        ///
+        ///Александровский переулок, Сущевской части.
+        ///
+        ///Алексеевская Большая улица, Рогожской части.
+        ///
+        ///Алексеевская Малая улица, Рогожской части.
+        ///
+        ///Алексеевский переулок, Рогожской части.
+        ///
+        ///Андроньевская 1-я улица, Рогожской части.
+        ///
+        ///Андроньевская 2-я улица, Рогожской части.
+        ///
+        ///Антипьевский переулок, Тверской части.
+        ///
+        ///Aптекарский переулок, Басманной части.
+        ///
+        ///Арбат улица, Арбатской части.
+        ///
+        ///Арбатецкая улица, Рогожской части.
+        /// [остаток строки не уместился]&quot;;.
+        /// </summary>
+        public static string улицы {
+            get {
+                return ResourceManager.GetString("улицы", resourceCulture);
             }
         }
     }

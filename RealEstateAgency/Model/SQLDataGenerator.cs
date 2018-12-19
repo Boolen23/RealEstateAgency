@@ -8,9 +8,14 @@ namespace RealEstateAgency.ViewModel
 {
     public static class SQLDataGenerator
     {
-        static string NamePath = @"C:\Users\OskarSparta\Desktop\СУБД\имя фамилия.txt";
-        static string StreetNamePath = @"C:\Users\OskarSparta\Desktop\СУБД\улицы.txt";
-        static string PhoneNumberPath = @"C:\Users\OskarSparta\Desktop\СУБД\номера телефонов.txt";
+        //static string NamePath = @"C:\Users\OskarSparta\Desktop\СУБД\имя фамилия.txt";
+        //static string StreetNamePath = @"C:\Users\OskarSparta\Desktop\СУБД\улицы.txt";
+        //static string PhoneNumberPath = @"C:\Users\OskarSparta\Desktop\СУБД\номера телефонов.txt";
+
+        static string NamePath =  @"Resources/имя фамилия.txt";
+        static string StreetNamePath = @"Resources/улицы.txt";
+        static string PhoneNumberPath = @"Resources/номера телефонов.txt";
+
 
         static string flatPath = @"C:\Users\OskarSparta\Desktop\СУБД\flat";
         static string hometPath = @"C:\Users\OskarSparta\Desktop\СУБД\home";
