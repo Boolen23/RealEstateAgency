@@ -46,6 +46,11 @@ namespace RealEstateAgency
             };
             CurrentWindow = window;
         }
+        public void CloseApp()
+        {
+            this.CurrentWindow.Close();
+            Application.Current.Shutdown();
+        }
 
     }
 }

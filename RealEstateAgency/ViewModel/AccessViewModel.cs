@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RealEstateAgency.ViewModel
 {
@@ -12,18 +13,37 @@ namespace RealEstateAgency.ViewModel
             this.windowFactory = windowFactory;
             RegistrationMode = false;
             dialogService = new DefaultDialogService();
-            InitializeDB();
         }
         private async void InitializeDB()
         {
             ErrorText = "Установка связи с БД...";
-            await Task.Run(() => SQLDb = new AgencySQLDb());
-            ErrorText = "Загрузка данных...";
-            UserData = SQLDb.GetLoginData();
-            UserData.RowChanged += UserData_RowChanged;
-            Login = "Admin";
-            Password = "Admin";
-            ErrorText = null;
+            await Task.Run(() =>
+            {
+                SQLDb = new AgencySQLDb();
+                // DBConnected = SQLDb.TryConnect();
+
+            });
+            if (!DBConnected)
+            {
+                ErrorText = "База данных не найдена или не распознана, выберите расположение базы";
+                while (DBConnected == false)
+                    if (dialogService.OpenFileDialog())
+                        DBConnected = SQLDb.TryOpen(dialogService.FilePath);
+                    else
+                    {
+                        windowFactory.CloseApp();
+                        break;
+                    }
+                if (DBConnected)
+                {
+                    ErrorText = "Загрузка данных...";
+                    UserData = SQLDb.GetLoginData();
+                    UserData.RowChanged += UserData_RowChanged;
+                    Login = "Admin";
+                    Password = "Admin";
+                    ErrorText = null;
+                }
+            }
         }
         private async void UserData_RowChanged(object sender, DataRowChangeEventArgs e)
         {
@@ -35,7 +55,6 @@ namespace RealEstateAgency.ViewModel
                 UserData.RowChanged += UserData_RowChanged;
             }
         }
-
         private AgencySQLDb SQLDb;
         private readonly IWindowController windowFactory;
         private readonly IDialogService dialogService;
@@ -147,6 +166,17 @@ namespace RealEstateAgency.ViewModel
             {
                 _MultyActionText = value;
                 OnPropertyChange("MultyActionText");
+            }
+        }
+
+        private bool _DBConnected;
+        public bool DBConnected
+        {
+            get => _DBConnected;
+            set
+            {
+                _DBConnected = value;
+                OnPropertyChange("DBConnected");
             }
         }
 
@@ -291,6 +321,22 @@ namespace RealEstateAgency.ViewModel
         {
             windowFactory.CreateEditWindow(windowFactory, SQLDb);
         }
+
+        private RelayCommand _Load;
+        public RelayCommand LoadCommand
+        {
+            get
+            {
+                if (_Load == null)
+                    _Load = new RelayCommand(LoadMethod);
+                return _Load;
+            }
+        }
+        private void LoadMethod()
+        {
+            InitializeDB();
+        }
+
         #endregion
 
 

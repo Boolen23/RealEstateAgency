@@ -6,8 +6,14 @@
         xmlns:conv ="clr-namespace:RealEstateAgency.Converter"
         x:Class="RealEstateAgency.View.AccessWindow"
         mc:Ignorable="d"
+        xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
         Title="AccessWindow" Height="183" Width="327"
         ResizeMode="NoResize">
+    <intr:Interaction.Triggers>
+        <intr:EventTrigger EventName="Loaded">
+            <intr:InvokeCommandAction Command="{Binding LoadCommand}"/>
+        </intr:EventTrigger>
+    </intr:Interaction.Triggers>
     <Window.Resources>
         <conv:BoolToVisible x:Key="VisibleConverter"/>
         <conv:BoolToUnVisible x:Key="UnVisibleConverter"/>
@@ -74,8 +80,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Width="150" Height="20" Command="{Binding EnterLogic}" Content="{Binding EnterText}" Grid.Row="4" Grid.Column="0"/>
-            <ToggleButton  HorizontalAlignment="Left" Margin="10,0,0,0"  Width="150" Height="20" Content="Регистрация" IsChecked="{Binding RegistrationMode}" Grid.Row="4" Grid.Column="1"/>
+            <Button IsEnabled="{Binding DBConnected}" Width="150" Height="20" Command="{Binding EnterLogic}" Content="{Binding EnterText}" Grid.Row="4" Grid.Column="0"/>
+            <ToggleButton IsEnabled="{Binding DBConnected}"  HorizontalAlignment="Left" Margin="10,0,0,0"  Width="150" Height="20" Content="Регистрация" IsChecked="{Binding RegistrationMode}" Grid.Row="4" Grid.Column="1"/>
 
             <TextBox HorizontalAlignment="Left" Width="150" Height="20" Text="{Binding Login, Mode=TwoWay}"  Grid.Row="0" Grid.Column="1" />
             <TextBox HorizontalAlignment="Left" Width="150" Height="20" Text="{Binding Password, Mode=TwoWay}" Grid.Row="1" Grid.Column="1"/>

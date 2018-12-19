@@ -20,14 +20,54 @@ namespace RealEstateAgency.ViewModel
         public AgencySQLDb()
         {
             conn = new SqlConnection(connStr);
+        }
+        public bool TryConnect()
+        {
+            try
+            {
+                conn.Open();
+                #region forGenerateData
+                ClientId = GetfromTable("Id", "ClientSale");
+                EmployeeId = GetfromTable("Id", "Employee");
+                OfficeId = GetfromTable("Id", "Office");
+                rn = new Random();
+                #endregion
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
+        }
+        public bool TryOpen(string path)
+        {
+            try
+            {
+                string tempStr = string.Format(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={0};Integrated Security=True", path);
+                conn = new SqlConnection(tempStr);
+                conn.Open();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        private async void createDb()
+        {
+            conn.Close();
+            conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Integrated Security=True");
+            SqlCommand cmdCreateDataBase = new SqlCommand(string.Format(@"CREATE DATABASE [{0}]" , "AgencyDb1"), conn);
             conn.Open();
-            ClientId = GetfromTable("Id", "ClientSale");
-            EmployeeId = GetfromTable("Id", "Employee");
-            OfficeId = GetfromTable("Id", "Office");
-            rn = new Random();
+            cmdCreateDataBase.ExecuteNonQuery();
+            await Task.Delay(200);
+            conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;Integrated Security=True");
+            conn.Open();
         }
         public event EventHandler DBChanged;
-        string connStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\OskarSparta\source\repos\RealEstateAgency\RealEstateAgency\AgencyDb.mdf;Integrated Security=True";
+        string connStr = string.Format(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={0}\AgencyDb.mdf;Integrated Security=True", Directory.GetCurrentDirectory());
+
+        //string connStr = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\OskarSparta\source\repos\RealEstateAgency\RealEstateAgency\AgencyDb.mdf;Integrated Security=True";
         private SqlConnection conn;
         public bool IsBusy { get; private set; } = false;
 

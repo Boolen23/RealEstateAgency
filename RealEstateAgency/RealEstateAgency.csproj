@@ -201,9 +201,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AgencyDb.mdf" />
+    <Content Include="AgencyDb.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="AgencyDb_log.ldf">
       <DependentUpon>AgencyDb.mdf</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\rielt.png" />
   </ItemGroup>
